@@ -23,4 +23,28 @@ router.post('/', (req, res) => {
   res.json(messages);
 });
 
+// Update Message
+router.put('/:id', (req, res) => {
+  const found = messages.some(
+    (message) => message.id === parseInt(req.params.id)
+  );
+
+  if (found) {
+    const updateMessage = req.body;
+    messages.forEach((message) => {
+      if (message.id === parseInt(req.params.id)) {
+        message.text = updateMessage.text ? updateMessage.text : message.text;
+        message.user = updateMessage.user ? updateMessage.user : message.user;
+
+        // Need to send back response
+        res.json({ msg: 'Message has been updated', message });
+      }
+    });
+  } else {
+    res
+      .status(400)
+      .json({ msg: `There is no message with id of ${req.params.id}` });
+  }
+});
+
 module.exports = router;
