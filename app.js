@@ -3,9 +3,14 @@ const path = require('path');
 
 const app = express();
 
+// Body Parser Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
 // Set views as static folder
 app.use(express.static(path.join(__dirname, 'views')));
 
+// Messages API Routes
 app.use('/api/messages', require('./routes/api/messages'));
 
 // when we deploy, server will have port number in env variable so check that first
